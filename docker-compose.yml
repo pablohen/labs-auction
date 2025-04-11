@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build:
@@ -22,6 +20,8 @@ services:
       - cmd/auction/.env
     volumes:
       - mongo-data:/data/db
+      - ./internal/infra/database/seeds/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro # seed file, read only
+
     networks:
       - localNetwork
 
