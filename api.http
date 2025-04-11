@@ -1,0 +1,26 @@
+### Get auctions
+GET http://localhost:8080/auction?status=0
+
+### Create auction
+POST http://localhost:8080/auction
+Content-Type: application/json
+
+{
+  "product_name": "Product name",
+  "category": "category",
+  "description": "Product description",
+  "condition": 1
+}
+
+### Create bid
+POST http://localhost:8080/bid
+Content-Type: application/json
+
+{
+  "user_id": "4c30ae95-53a3-4087-90bf-2087d07c8e35",
+  "auction_id": "fbfe245e-82f2-48c9-b33e-13741e904e5a",
+  "amount": 100.4
+}
+
+### Get winning bid
+GET http://localhost:8080/auction/winner/fbfe245e-82f2-48c9-b33e-13741e904e5a
