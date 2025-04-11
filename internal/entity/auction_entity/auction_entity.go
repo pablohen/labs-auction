@@ -2,14 +2,18 @@ package auction_entity
 
 import (
 	"context"
-	"fullcycle-auction_go/internal/internal_error"
-	"github.com/google/uuid"
+	"os"
 	"time"
+
+	"fullcycle-auction_go/internal/internal_error"
+
+	"github.com/google/uuid"
 )
 
 func CreateAuction(
 	productName, category, description string,
-	condition ProductCondition) (*Auction, *internal_error.InternalError) {
+	condition ProductCondition,
+) (*Auction, *internal_error.InternalError) {
 	auction := &Auction{
 		Id:          uuid.New().String(),
 		ProductName: productName,
@@ -49,8 +53,10 @@ type Auction struct {
 	Timestamp   time.Time
 }
 
-type ProductCondition int
-type AuctionStatus int
+type (
+	ProductCondition int
+	AuctionStatus    int
+)
 
 const (
 	Active AuctionStatus = iota
@@ -75,4 +81,14 @@ type AuctionRepositoryInterface interface {
 
 	FindAuctionById(
 		ctx context.Context, id string) (*Auction, *internal_error.InternalError)
+}
+
+func GetAuctionInterval() time.Duration {
+	auctionInterval := os.Getenv("AUCTION_INTERVAL")
+	duration, err := time.ParseDuration(auctionInterval)
+	if err != nil {
+		return time.Minute * 5
+	}
+
+	return duration
 }
